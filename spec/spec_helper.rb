@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
-#require 'bundler/setup'
-require 'lib/campaign_discrepancy'
+require 'campaign_discrepancy/checker'
+require 'support/campaign'
 require 'rspec'
-require 'pry'
+require 'vcr'
+
+VCR.config do |c|
+  c.cassette_library_dir     = 'spec/cassettes'
+  c.default_cassette_options = { record: :new_episodes }
+end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
