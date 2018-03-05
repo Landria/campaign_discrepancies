@@ -4,10 +4,11 @@ require 'campaign_discrepancy/checker'
 require 'support/campaign'
 require 'rspec'
 require 'vcr'
+require 'pry'
 
-VCR.config do |c|
-  c.cassette_library_dir     = 'spec/cassettes'
-  c.default_cassette_options = { record: :new_episodes }
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+  config.hook_into :webmock
 end
 
 RSpec.configure do |config|

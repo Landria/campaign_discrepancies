@@ -3,22 +3,22 @@
 require 'spec_helper'
 
 RSpec.describe 'CampaignDiscrepancy::Checker' do
-  let(:subject) { CampaignDiscrepancy::Checker.new }
+  let(:subject) { CampaignDiscrepancy::Checker.run }
 
   let(:campaign_1) do
-    instance_double(
-      'Campaign',
+    object_double(
+      Campaign.new,
       id: 11,
       job_id: 52,
-      status: :active,
+      status: :paused,
       external_reference: 1,
       ad_description: 'Ruby on Rails Developer'
     )
   end
 
   let(:campaign_2) do
-    instance_double(
-      'Campaign',
+    object_double(
+      Campaign.new,
       id: 12,
       job_id: 52,
       status: :deleted,
@@ -28,11 +28,11 @@ RSpec.describe 'CampaignDiscrepancy::Checker' do
   end
 
   let(:campaign_3) do
-    instance_double(
-      'Campaign',
+    object_double(
+      Campaign.new,
       id: 13,
       job_id: 52,
-      status: :paused,
+      status: :deleted,
       external_reference: 3,
       ad_description: 'Description for campaign 13'
     )
@@ -45,7 +45,7 @@ RSpec.describe 'CampaignDiscrepancy::Checker' do
         "discrepancies": [
           "status": {
             "remote": 'enabled',
-            "local": 'active'
+            "local": 'paused'
           },
           "description": {
             "remote": 'Description for campaign 11',
@@ -58,7 +58,7 @@ RSpec.describe 'CampaignDiscrepancy::Checker' do
         "discrepancies": [
           "status": {
             "remote": 'enabled',
-            "local": 'paused'
+            "local": 'deleted'
           }
         ]
       }
@@ -72,6 +72,25 @@ RSpec.describe 'CampaignDiscrepancy::Checker' do
   end
 
   context '#perform' do
-    it { expect(subject.perform).to eq result }
+    it 'valid result' do
+      VCR.use_cassette('external_ads') do
+        expect(subject.state).to eq result
+      end
+    end
+
+    it 'handles empty external ads' do
+      VCR.use_cassette('external_ads_empty') do
+        expect(subject.state).to eq []
+        expect(subject.success).to be_truthy
+      end
+    end
+
+    it 'handles empty external response' do
+      VCR.use_cassette('external_ads_no_ads') do
+        expect(subject.state).to eq []
+        expect(subject.success).to be_falsey
+        expect(subject.errors).to eq('')
+      end
+    end
   end
 end
