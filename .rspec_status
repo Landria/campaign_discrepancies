@@ -1,5 +1,5 @@
 example_id                                         | status | run_time        |
 -------------------------------------------------- | ------ | --------------- |
-./spec/campaign_discrepancy/checker_spec.rb[1:1:1] | passed | 0.01616 seconds |
-./spec/campaign_discrepancy/checker_spec.rb[1:1:2] | passed | 0.01215 seconds |
-./spec/campaign_discrepancy/checker_spec.rb[1:1:3] | failed | 0.01092 seconds |
+./spec/campaign_discrepancy/checker_spec.rb[1:1:1] | passed | 0.01064 seconds |
+./spec/campaign_discrepancy/checker_spec.rb[1:1:2] | passed | 0.00454 seconds |
+./spec/campaign_discrepancy/checker_spec.rb[1:1:3] | failed | 0.01124 seconds |

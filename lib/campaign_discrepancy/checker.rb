@@ -18,7 +18,15 @@ module CampaignDiscrepancy
     end
 
     def run
-      analyze
+      begin
+        ExternalAds.fetch.each do |ad|
+          state << difference(ad)
+        end
+        state.compact!
+      rescue NoMethodError => e
+        @errors << e
+      end
+
       self
     end
 
@@ -27,15 +35,6 @@ module CampaignDiscrepancy
     end
 
     private
-
-    def analyze
-      ExternalAds.fetch.each do |ad|
-        state << difference(ad)
-      end
-      state.compact!
-    rescue NoMethodError => e
-      @errors << e
-    end
 
     def difference(ad)
       external_reference = ad.reference.to_i
