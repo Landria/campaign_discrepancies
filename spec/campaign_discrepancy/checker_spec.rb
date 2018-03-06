@@ -89,7 +89,13 @@ RSpec.describe 'CampaignDiscrepancy::Checker' do
       VCR.use_cassette('external_ads_no_ads') do
         expect(subject.state).to eq []
         expect(subject.success).to be_falsey
-        expect(subject.errors).to eq('')
+      end
+    end
+
+    it 'handles 404 error' do
+      VCR.use_cassette('external_ads_404') do
+        expect(subject.state).to eq []
+        expect(subject.success).to be_falsey
       end
     end
   end

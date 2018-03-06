@@ -22,8 +22,9 @@ module CampaignDiscrepancy
         ExternalAds.fetch.each do |ad|
           state << difference(ad)
         end
+
         state.compact!
-      rescue NoMethodError => e
+      rescue Errors::ExternalAdsFetchError, NoMethodError => e
         @errors << e
       end
 
