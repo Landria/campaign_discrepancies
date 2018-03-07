@@ -1,9 +1,4 @@
-
-
-require 'httparty'
-require 'campaign_discrepancy/errors'
-require 'settings'
-require 'uri'
+# frozen_string_literal: true
 
 module CampaignDiscrepancy
   module Errors

@@ -22,22 +22,20 @@ CampaignDiscrepancy::Checker.run.state
 
 * *state* - where all found discrepancies stored
 * *errors* - array with errors ocurred if any
-* *external_ads* - array with remote ads parsed data
-
 
 To know if service performed succesfully run
 
 ```
 checker = CampaignDiscrepancy::Checker.run
-checker.state
+checker.success
 ```
 
 ## Solution notes
 
-Solusion is assumed to be a part od Ruby on Rails appliation.
+Solution is assumed to be a part of Ruby on Rails appliation.
 
 To test it localy **Campaign** model is stubbed with support class and object_double and Rails app Settings stubbed with **Settings** class.
 
-Solution can be easily changed to check more attributes if needed with just adding new items to **CampaignDiscrepancy::Checker** METRICS constant.
+Solution can be easily changed to check more attributes if needed with just adding new items to **CampaignDiscrepancy::Analyzer** METRICS constant.
 
 Custom errors can be defined for the service. **Errors::ExternalAdsFetchError** error added to collect all fetch remote data issues.
